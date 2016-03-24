@@ -4,4 +4,8 @@
 ### Running
 
 * `lein server` - starts the server
+
+### Tests
+
 * `lein test` - runs the full test suite
+* `lein autotest` - listen for file changes and is allways running tests
