@@ -7,6 +7,7 @@
 (defn handler
   "Returns a intro to the game"
   [request]
-  (-> "OBB Server"
+  (-> {:name "OBB Game"
+       :version (System/getProperty "obb-game.version")}
       result/success
       reply/ok))

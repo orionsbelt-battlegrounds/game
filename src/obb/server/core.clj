@@ -5,15 +5,11 @@
   (:gen-class)
   (:require
     [compojure.core :as compojure :refer [GET]]
+    [ring.middleware.cors :as cors]
     [ring.middleware.params :as params]
     [compojure.route :as route]
     [clojure.core.async :refer [put! chan <! >! go go-loop close! >!! <!! timeout]]
     [aleph.http :as http]
-    [manifold.stream :as stream]
-    [byte-streams :as bs]
-    [manifold.stream :as s]
-    [manifold.deferred :as d]
-    [manifold.bus :as bus]
     [obb.server.controllers.index :as index]))
 
 (compojure/defroutes public-routes
@@ -21,9 +17,18 @@
   (GET "/" request (index/handler request))
   (route/not-found "No such page."))
 
+(defn- setup-cors
+  "Setup cors"
+  [handler]
+  (cors/wrap-cors handler
+                  :access-control-allow-origin
+                  [#"^http://localhost(.*)"]
+                  :access-control-allow-methods [:get :put :post :delete]))
+
 (def app
   "The main app handler"
-  (-> (compojure/routes public-routes)))
+  (-> (compojure/routes public-routes)
+      (setup-cors)))
 
 (defn -main [& args]
   (let [port 54321]

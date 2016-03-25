@@ -10,6 +10,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/clojurescript "1.8.34"]
+                 [cljs-ajax "0.5.4"]
                  [clanhr/result "0.11.0"]]
 
   :aliases {"server"  ["with-profile" "clj" "run" "-m" "obb.server.core/-main"]
@@ -29,6 +30,7 @@
      :clj {
 
         :dependencies [[compojure "1.5.0"]
+                       [ring-cors "0.1.7"]
                        [aleph "0.4.1-beta4"]]
 
        :main obb.game.server}
