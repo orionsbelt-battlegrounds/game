@@ -9,7 +9,8 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.2.374"]
-                 [org.clojure/clojurescript "1.8.34"]]
+                 [org.clojure/clojurescript "1.8.34"]
+                 [clanhr/result "0.11.0"]]
 
   :aliases {"server"  ["with-profile" "clj" "run" "-m" "obb.server.core/-main"]
             "autotest" ["with-profile" "+clj-test" "test-refresh"]

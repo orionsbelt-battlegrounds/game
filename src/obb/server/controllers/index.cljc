@@ -1,9 +1,12 @@
 (ns ^{:added "0.1.0" :author "Pedro Pereira Santos"}
   obb.server.controllers.index
-  "Controller to handle the root/index request to the server")
+  "Controller to handle the root/index request to the server"
+  (:require [obb.server.controllers.reply :as reply]
+            [result.core :as result]))
 
 (defn handler
   "Returns a intro to the game"
   [request]
-  {:body "Hello World!"
-   :status 200})
+  (-> "OBB Server"
+      result/success
+      reply/ok))
