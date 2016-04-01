@@ -1,7 +1,6 @@
-(ns obb.server.controllers.mock-request
+(ns obb.server.handlers.mock-request
   (:use clojure.test)
-  (:require [obb.server.controllers.index :as index]
-            [obb.server.core :as core]
+  (:require [obb.server.core :as core]
             [clojure.edn :as edn]
             [ring.mock.request :as mock]))
 

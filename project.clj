@@ -9,7 +9,7 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.2.374"]
-                 [org.clojure/clojurescript "1.8.34"]
+                 [org.clojure/clojurescript "1.8.40"]
                  [cljs-ajax "0.5.4"]
                  [clanhr/result "0.11.0"]]
 

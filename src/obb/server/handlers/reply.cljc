@@ -1,5 +1,5 @@
 (ns ^{:added "0.1.0" :author "Pedro Pereira Santos"}
-  obb.server.controllers.reply
+  obb.server.handlers.reply
   "Utilities to format an HTTP response")
 
 (defn- data

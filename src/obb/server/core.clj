@@ -10,7 +10,7 @@
     [compojure.route :as route]
     [clojure.core.async :refer [put! chan <! >! go go-loop close! >!! <!! timeout]]
     [aleph.http :as http]
-    [obb.server.controllers.index :as index]))
+    [obb.server.handlers.index :as index]))
 
 (compojure/defroutes public-routes
   "The routes available to be served, that don't need auth"

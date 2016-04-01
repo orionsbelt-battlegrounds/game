@@ -1,6 +1,6 @@
-(ns obb.server.controllers.index-test
+(ns obb.server.handlers.index-test
   (:use clojure.test)
-  (:require [obb.server.controllers.mock-request :as mock-request]
+  (:require [obb.server.handlers.mock-request :as mock-request]
             [result.core :as result]))
 
 (deftest basic-test
