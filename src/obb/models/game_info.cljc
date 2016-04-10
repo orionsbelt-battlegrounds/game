@@ -5,4 +5,9 @@
 (defn create
   "Creates a new empty game-info"
   []
-  {})
+  {:id (gensym)})
+
+(defn id
+  "Gets the id of the game"
+  [game-info]
+  (:id game-info))
