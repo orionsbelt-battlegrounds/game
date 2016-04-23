@@ -23,7 +23,6 @@
         game-info (game-info/create)
         game-ch (async/chan 1)
         subscriber-all-ch (async/chan 1)
-        test-event :new-game
         expected-message {:game-id (game-info/id game-info)
                           :data game-info}]
 
