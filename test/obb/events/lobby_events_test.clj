@@ -11,32 +11,27 @@
   (component/system-map
     :lobby-events (lobby-events/create)))
 
-(deftest create-start-stop-component
-  (testing "creates a ready to use component"
-    (is (-> (lobby-events-system)
-            (component/start)
-            (component/stop)))))
-
 (deftest lobby-events-test
-  (let [system (-> (lobby-events-system) component/start)
+  (let [system (component/start (lobby-events-system))
         lobby-events (:lobby-events system)
         game-info (game-info/create)
         subscriber1 (async/chan)
-        subscriber2 (async/chan)
-        ]
+        subscriber2 (async/chan)]
 
     (lobby-events/subscribe lobby-events subscriber1)
     (lobby-events/subscribe lobby-events subscriber2)
 
     (testing "adding a game"
       (lobby-events/add-game lobby-events game-info)
-      (let [expected-message {:action :added :data game-info}]
+      (let [expected-message {:meta {:action :add-game}
+                              :game-info game-info}]
         (is (= expected-message (async/<!! subscriber1)))
         (is (= expected-message (async/<!! subscriber2)))))
 
     (testing "removing a game"
       (lobby-events/remove-game lobby-events game-info)
-      (let [expected-message {:action :removed :data game-info}]
+      (let [expected-message {:meta {:action :remove-game}
+                              :game-info game-info}]
         (is (= expected-message (async/<!! subscriber1)))
         (is (= expected-message (async/<!! subscriber2)))))
 

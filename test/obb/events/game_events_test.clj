@@ -11,20 +11,13 @@
   (component/system-map
     :game-events (game-events/create)))
 
-(deftest create-start-stop-component
-  (testing "creates a ready to use component"
-    (is (-> (game-events-system)
-            (component/start)
-            (component/stop)))))
-
 (deftest send-game-event
-  (let [system (-> (game-events-system) component/start)
+  (let [system (component/start (game-events-system))
         game-events (:game-events system)
         game-info (game-info/create)
         game-ch (async/chan 1)
         subscriber-all-ch (async/chan 1)
-        expected-message {:game-id (game-info/id game-info)
-                          :data game-info}]
+        expected-message {:game-info game-info}]
 
       (game-events/subscribe-game game-events game-info game-ch)
       (game-events/subscribe-all game-events subscriber-all-ch)

@@ -10,7 +10,7 @@
   (remove-game [this game-info])
   (subscribe [this subscriber-ch]))
 
-(defrecord LobbyEventSystem [master-ch multiplier]
+(defrecord LobbyEventComponent [master-ch multiplier]
 
   component/Lifecycle
 
@@ -31,14 +31,14 @@
   (add-game [this game-info]
     (async/go
       (async/>! master-ch
-                {:action :added
-                 :data game-info})))
+                {:meta {:action :add-game}
+                 :game-info game-info})))
 
   (remove-game [this game-info]
     (async/go
       (async/>! master-ch
-                {:action :removed
-                 :data game-info})))
+                {:meta {:action :remove-game}
+                 :game-info game-info})))
 
   (subscribe [this subscriber-ch]
     (async/tap multiplier subscriber-ch)))
@@ -46,4 +46,4 @@
 (defn create
   "Creates a new component for lobby events"
   []
-  (map->LobbyEventSystem {}))
+  (map->LobbyEventComponent {}))

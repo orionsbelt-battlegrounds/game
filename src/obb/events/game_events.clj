@@ -10,7 +10,12 @@
   (subscribe-game [this game-info subscriber-ch])
   (subscribe-all [this subscriber-ch]))
 
-(defrecord GameEventSystem [master-ch game-publication multiplier]
+(defn- game-info-topic
+  "Given an event, returns the specific topic for it"
+  [ev]
+  (game-info/id (:game-info ev)))
+
+(defrecord GameEventComponent [master-ch game-publication multiplier]
 
   component/Lifecycle
 
@@ -20,7 +25,7 @@
           game-publisher-ch (async/chan)]
       (async/tap multiplier game-publisher-ch)
       (assoc component :master-ch master-ch
-                       :game-publication (async/pub game-publisher-ch :game-id)
+                       :game-publication (async/pub game-publisher-ch game-info-topic)
                        :multiplier multiplier)))
 
   (stop [component]
@@ -34,8 +39,7 @@
   (publish [this game-info]
     (async/go
       (async/>! master-ch
-                {:game-id (game-info/id game-info)
-                 :data game-info})))
+                {:game-info game-info})))
 
   (subscribe-game [this game-info subscriber-ch]
     (async/sub game-publication
@@ -48,4 +52,4 @@
 (defn create
   "Creates a new component for game events"
   []
-  (map->GameEventSystem {}))
+  (map->GameEventComponent {}))
