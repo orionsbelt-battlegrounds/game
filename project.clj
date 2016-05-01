@@ -11,6 +11,7 @@
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/clojurescript "1.8.40"]
                  [cljs-ajax "0.5.4"]
+                 [com.stuartsierra/component "0.3.1"]
                  [clanhr/result "0.11.0"]]
 
   :aliases {"server"  ["with-profile" "clj" "run" "-m" "obb.server.core/-main"]
