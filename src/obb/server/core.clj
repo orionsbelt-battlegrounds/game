@@ -4,34 +4,16 @@
   the necessary config, such as routing and system/context build up."
   (:gen-class)
   (:require
-    [compojure.core :as compojure :refer [GET]]
-    [ring.middleware.cors :as cors]
-    [ring.middleware.params :as params]
-    [compojure.route :as route]
-    [clojure.core.async :refer [put! chan <! >! go go-loop close! >!! <!! timeout]]
-    [aleph.http :as http]
-    [obb.server.handlers.index :as index]))
+    [com.stuartsierra.component :as component]
+    [obb.server.system :as system]))
 
-(compojure/defroutes public-routes
-  "The routes available to be served, that don't need auth"
-  (GET "/" request (index/handler request))
-  (route/not-found "No such page."))
-
-(defn- setup-cors
-  "Setup cors"
-  [handler]
-  (cors/wrap-cors handler
-                  :access-control-allow-origin
-                  [#"^http://localhost(.*)"]
-                  :access-control-allow-methods [:get :put :post :delete]))
-
-(def app
-  "The main app handler"
-  (-> (compojure/routes public-routes)
-      (setup-cors)))
+(defn- on-shutdown
+  "Runs shutdown hooks"
+  [system]
+  (println "Shutdown system...")
+  (component/stop system))
 
 (defn -main [& args]
-  (let [port 54321]
-    (println (str "** OBB Server " (or (get (System/getenv) "OBB_ENV" "development"))
-                  " running on port " port))
-    (http/start-server app {:port port})))
+  (let [system (system/create)]
+    (component/start system)
+    (.addShutdownHook (Runtime/getRuntime) (Thread. (partial on-shutdown system)))))
