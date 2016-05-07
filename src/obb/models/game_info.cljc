@@ -11,3 +11,13 @@
   "Gets the id of the game"
   [game-info]
   (:id game-info))
+
+(defn set-p1
+  "Sets the p1 identifier"
+  [game-info p1-id]
+  (assoc game-info :p1 p1-id))
+
+(defn p1
+  "Gets the p1 identifier"
+  [game-info]
+  (:p1 game-info))
