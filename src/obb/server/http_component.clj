@@ -15,19 +15,21 @@
                   [#"^http://localhost(.*)"]
                   :access-control-allow-methods [:get :put :post :delete]))
 
-(def app
+(defn app
   "The main app handler"
+  [system]
   (-> (compojure/routes routes/public-routes)
       (setup-cors)))
 
-(defrecord HttpServerComponent [server port]
+(defrecord HttpServerComponent [server port meta]
 
   component/Lifecycle
 
   (start [component]
     (println (str "** OBB HTTP Server " (or (get (System/getenv) "OBB_ENV" "development"))
                   " running on port " port))
-    (assoc component :server (http/start-server app {:port port})))
+    (assoc component :server (http/start-server (app (:system meta))
+                                                     {:port port})))
 
   (stop [component]
     (.close server)
@@ -36,4 +38,6 @@
 (defn create
   "Creates a new http component"
   []
-  (map->HttpServerComponent {:port 54321}))
+  (component/using
+    (map->HttpServerComponent {:port 54321})
+    [:meta]))

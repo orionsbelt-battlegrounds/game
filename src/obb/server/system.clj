@@ -10,10 +10,11 @@
 (defn create
   "Creates a new system to execute the app"
   []
-  (component/system-map
-    :http-server (http-component/create)
-    :game-events (game-events/create)
-    :lobby-events (lobby-events/create)))
+  (let [system (component/system-map
+                :http-server (http-component/create)
+                :game-events (game-events/create)
+                :lobby-events (lobby-events/create))]
+    (assoc system :meta {:system system})))
 
 (defn -main
   "Runs a viz of the system"
