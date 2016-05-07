@@ -2,6 +2,7 @@
   obb.server.http-component
   "The aleph server as a component"
   (:require [com.stuartsierra.component :as component]
+            [clojure.core.async :as async]
             [ring.middleware.cors :as cors]
             [aleph.http :as http]
             [compojure.core :as compojure]
@@ -21,7 +22,7 @@
   (-> (compojure/routes routes/public-routes)
       (setup-cors)))
 
-(defrecord HttpServerComponent [server port meta]
+(defrecord HttpServerComponent [server port meta closed-ch]
 
   component/Lifecycle
 
@@ -29,10 +30,12 @@
     (println (str "** OBB HTTP Server " (or (get (System/getenv) "OBB_ENV" "development"))
                   " running on port " port))
     (assoc component :server (http/start-server (app (:system meta))
-                                                     {:port port})))
+                                                     {:port port})
+                     :closed-ch (async/chan)))
 
   (stop [component]
     (.close server)
+    (async/>!! closed-ch {:http-server :closed})
     (dissoc component server)))
 
 (defn create

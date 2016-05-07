@@ -5,6 +5,7 @@
   (:gen-class)
   (:require
     [com.stuartsierra.component :as component]
+    [clojure.core.async :as async]
     [obb.server.system :as system]))
 
 (defn- on-shutdown
@@ -14,6 +15,6 @@
   (component/stop system))
 
 (defn -main [& args]
-  (let [system (system/create)]
-    (component/start system)
-    (.addShutdownHook (Runtime/getRuntime) (Thread. (partial on-shutdown system)))))
+  (let [system (component/start (system/create))]
+    (.addShutdownHook (Runtime/getRuntime) (Thread. (partial on-shutdown system)))
+    (async/<!! (-> system :http-server :closed-ch))))
