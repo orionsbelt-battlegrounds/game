@@ -16,10 +16,17 @@
                   [#"^http://localhost(.*)"]
                   :access-control-allow-methods [:get :put :post :delete]))
 
+(defn- set-system
+  "Adds the system to the request data"
+  [f system]
+  (fn [request]
+    (f (assoc request :system system))))
+
 (defn app
   "The main app handler"
   [system]
   (-> (compojure/routes routes/public-routes)
+      (set-system system)
       (setup-cors)))
 
 (defrecord HttpServerComponent [server port meta closed-ch]

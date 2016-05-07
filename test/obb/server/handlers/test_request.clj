@@ -8,8 +8,9 @@
 
 (defn parsed-response
   "Gets the response for a HTTP request"
-  [method path]
+  [method path & [body-data]]
   (let [system (component/start (system/create))
-        response ((http-component/app system) (mock/request method path))]
+        body-data (if (nil? body-data) nil (str body-data))
+        response ((http-component/app system) (mock/request method path body-data))]
     (component/stop system)
-    (assoc response :body (edn/read-string (:body response)))))
+    response))

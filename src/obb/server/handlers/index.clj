@@ -1,7 +1,7 @@
 (ns ^{:added "0.1.0" :author "Pedro Pereira Santos"}
   obb.server.handlers.index
   "Controller to handle the root/index request to the server"
-  (:require [obb.server.handlers.reply :as reply]
+  (:require [clanhr.reply.core :as reply]
             [result.core :as result]))
 
 (defn handler
