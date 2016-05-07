@@ -12,7 +12,7 @@
 (deftest create-lobby-game-event
   (let [system (component/start (system/create))
         {:keys [game-events lobby-events]} system
-        player-id (gensym)
+        player-id (str (gensym))
         game-ch (async/chan)
         lobby-ch (async/chan)]
 
