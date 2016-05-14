@@ -3,6 +3,7 @@
   "The aleph server as a component"
   (:require [com.stuartsierra.component :as component]
             [clojure.core.async :as async]
+            [taoensso.timbre :as logger]
             [ring.middleware.cors :as cors]
             [aleph.http :as http]
             [compojure.core :as compojure]
@@ -29,15 +30,14 @@
       (set-system system)
       (setup-cors)))
 
-(defrecord HttpServerComponent [server port meta closed-ch]
+(defrecord HttpServerComponent [server port meta closed-ch web-app]
 
   component/Lifecycle
 
   (start [component]
-    (println (str "** OBB HTTP Server " (or (get (System/getenv) "OBB_ENV" "development"))
-                  " running on port " port))
-    (assoc component :server (http/start-server (app (:system meta))
-                                                     {:port port})
+    (logger/info (str "** OBB HTTP Server " (or (get (System/getenv) "OBB_ENV" "development"))
+                      " running on port " port))
+    (assoc component :server (http/start-server (app web-app) {:port port})
                      :closed-ch (async/chan)))
 
   (stop [component]
@@ -50,4 +50,4 @@
   []
   (component/using
     (map->HttpServerComponent {:port 54321})
-    [:meta]))
+    [:web-app]))

@@ -5,7 +5,7 @@
             [obb.server.interactors.create-lobby-game :as create-lobby-game]
             [result.core :as result]))
 
-(defn handler
+(defn handle
   "Creates a new game"
   [request]
   (let [system (:system request)

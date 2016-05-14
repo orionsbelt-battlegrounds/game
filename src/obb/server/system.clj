@@ -4,17 +4,18 @@
   (:require [com.stuartsierra.component :as component]
             [com.walmartlabs.system-viz :as system-viz]
             [obb.server.http-component :as http-component]
+            [obb.server.web-app-component :as web-app-component]
             [obb.events.lobby-events :as lobby-events]
             [obb.events.game-events :as game-events]))
 
 (defn create
   "Creates a new system to execute the app"
   []
-  (let [system (component/system-map
-                :http-server (http-component/create)
-                :game-events (game-events/create)
-                :lobby-events (lobby-events/create))]
-    (assoc system :meta {:system system})))
+  (component/system-map
+   :http-server (http-component/create)
+   :web-app (web-app-component/create)
+   :game-events (game-events/create)
+   :lobby-events (lobby-events/create)))
 
 (defn -main
   "Runs a viz of the system"

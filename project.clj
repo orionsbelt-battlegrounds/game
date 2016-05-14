@@ -11,6 +11,7 @@
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/clojurescript "1.8.51"]
                  [cljs-ajax "0.5.4"]
+                 [com.taoensso/timbre "4.3.1"]
                  [prismatic/schema "1.1.1"]
                  [com.stuartsierra/component "0.3.1"]
                  [walmartlabs/system-viz "0.1.1"]

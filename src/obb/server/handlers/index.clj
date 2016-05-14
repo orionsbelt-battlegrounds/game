@@ -4,7 +4,7 @@
   (:require [clanhr.reply.core :as reply]
             [result.core :as result]))
 
-(defn handler
+(defn handle
   "Returns a intro to the game"
   [request]
   (-> {:name "OBB Game"

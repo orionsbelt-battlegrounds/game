@@ -6,12 +6,13 @@
   (:require
     [com.stuartsierra.component :as component]
     [clojure.core.async :as async]
+    [taoensso.timbre :as logger]
     [obb.server.system :as system]))
 
 (defn- on-shutdown
   "Runs shutdown hooks"
   [system]
-  (println "Shutdown system...")
+  (logger/info "Shutdown system...")
   (component/stop system))
 
 (defn -main [& args]
