@@ -16,7 +16,8 @@
                  [com.stuartsierra/component "0.3.1"]
                  [walmartlabs/system-viz "0.1.1"]
                  [clanhr/result "0.11.0"]
-                 [clanhr/reply "1.0.0"]]
+                 [clanhr/reply "1.0.0"]
+                 [com.datomic/datomic-pro "0.9.5359"]]
 
   :aliases {"server"  ["trampoline" "with-profile" "clj" "run" "-m" "obb.server.core/-main"]
             "frontend" ["trampoline" "with-profile" "cljs-dev" "figwheel"]
