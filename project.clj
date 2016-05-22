@@ -28,6 +28,10 @@
   :scm {:name "git"
         :url "git@github.com:orionsbelt-battlegrounds/game.git"}
 
+  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
+                                   :username :env/datomic_repo_username
+                                   :password :env/datomic_repo_password}}
+
   :profiles {
 
      ;;
