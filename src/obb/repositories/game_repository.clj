@@ -1,9 +1,6 @@
-(ns obb.repositories.game-repository
+(ns ^{:added "0.1.0" :author "Joaquim Torres"}
+    obb.repositories.game-repository
   (:require [datomic.api :as datomic]))
-
-(def uri "datomic:mem://obb-game-test")
-
-(def conn (delay (datomic/connect uri)))
 
 (defn enum-value-fn
   "Returns a function that transforms the attribute into a Datomic enum value."

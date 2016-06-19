@@ -1,4 +1,5 @@
-(ns obb.repositories.db-repository
+(ns ^{:added "0.1.0" :author "Joaquim Torres"}
+    obb.repositories.db-repository
   (:require [datomic.api :as datomic]))
 
 (def db-schema

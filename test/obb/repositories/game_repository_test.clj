@@ -1,21 +1,14 @@
 (ns obb.repositories.game-repository-test
-  (:require [obb.repositories.game-repository :as sut]
+  (:require [clojure.test :refer :all]
+            [datomic.api :as datomic]
+            [com.stuartsierra.component :as component]
+            [obb.repositories.game-repository :as sut]
             [obb.repositories.db-repository :as db-repo]
-            [clojure.test :refer :all]
-            [datomic.api :as datomic]))
+            [obb.server.test-system :as system]))
 
-(def uri "datomic:mem://obb-game-test")
-
-(defn- use-test-db
-  "Sets up and tears down a datomic db for the tests"
-  [f]
-  (db-repo/create uri)
-  (f)
-  (db-repo/delete uri))
-
-(use-fixtures :once use-test-db)
-
-(let [tempid "test-id"
+(let [system (component/start (system/create))
+      db-conn (-> system :db :conn)
+      tempid "test-id"
       game {:mode :annihilation
             :state :deploy
             :terrain :ice

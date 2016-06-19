@@ -6,7 +6,8 @@
             [obb.server.http-component :as http-component]
             [obb.server.web-app-component :as web-app-component]
             [obb.events.lobby-events :as lobby-events]
-            [obb.events.game-events :as game-events]))
+            [obb.events.game-events :as game-events]
+            [obb.repositories.db-component :as db-component]))
 
 (defn create
   "Creates a new system to execute the app"
@@ -15,7 +16,9 @@
    :http-server (http-component/create)
    :web-app (web-app-component/create)
    :game-events (game-events/create)
-   :lobby-events (lobby-events/create)))
+   :lobby-events (lobby-events/create)
+   :db (db-component/create (get (System/getenv)
+                                 "DATOMIC_URI"))))
 
 (defn -main
   "Runs a viz of the system"
