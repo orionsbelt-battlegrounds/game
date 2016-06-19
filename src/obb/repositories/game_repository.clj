@@ -52,11 +52,28 @@
       (assoc :db/id tempid)
       vector))
 
+(defn- simulate
+  "Simulate the transaction without actually performing the
+  operation on the database.
+  If datomic/with and datomic/transact exposed exactly the same
+  interface, this function would not be needed. It only exists
+  to make the two functions transparently interchangeable."
+  [conn tx-data]
+  (future (datomic/with (datomic/db conn) tx-data)))
+
+(defn- transact-fn
+  "Get the transact function to use based on the the given options"
+  [{:keys [dry-run]}]
+  (if dry-run
+    simulate
+    datomic/transact))
+
 (defn create
   "Create a game in the database"
-  [game]
+  [conn game & [options]]
   (let [tempid (datomic/tempid :db.part/user)
+        transact (transact-fn options)
         tx-data (game->create-transact game tempid)
-        {:keys [db-after tempids]} @(datomic/transact @conn tx-data)]
+        {:keys [db-after tempids]} @(transact conn tx-data)]
     {:created-id (datomic/resolve-tempid db-after tempids tempid)
      :db db-after}))

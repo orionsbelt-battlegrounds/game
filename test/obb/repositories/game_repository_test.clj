@@ -17,7 +17,7 @@
             :height 5}]
   (deftest create-game
     (testing "game is created"
-      (is (:created-id (sut/create game)))))
+      (is (:created-id (sut/create db-conn game {:dry-run true})))))
 
   (deftest create-game-transact
     (testing "transact data contains a temp id"
